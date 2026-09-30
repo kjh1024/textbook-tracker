@@ -2,6 +2,8 @@ import { useState } from 'react'
 import ExerciseItem from './components/ExerciseItem'
 import SectionItem from './components/SectionItem'
 import { sampleBook } from './data/sampleBook'
+import BookForm from './components/BookForm'
+
 import type {
   ExerciseStatus,
   ReadingStatus,
@@ -113,10 +115,30 @@ function App() {
     ).length,
   }
 
+  function handleCreateBook(
+    title: string,
+    authors: string,
+    pdfFileName: string,
+  ) {
+    setBook((currentBook) => ({
+      ...currentBook,
+      title,
+      authors: authors
+        .split(',')
+        .map((author) => author.trim())
+        .filter((author) => author.length > 0),
+      pdfFileName,
+    }))
+  }
+
   return (
     <main>
+   
+
+      <BookForm onCreateBook={handleCreateBook}/>
       <h1>{book.title}</h1>
       <p>{book.authors.join(', ')}</p>
+      <p>PDF: {book.pdfFileName}</p> 
       <p>
         Reading Progress: {readingProgress.completed} / {readingProgress.total}
       </p>
